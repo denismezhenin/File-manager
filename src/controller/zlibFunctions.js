@@ -13,7 +13,7 @@ const compress = async (pathToFile, pathToDestination = "") => {
   const source = createReadStream(resolvedFilePath);
   const destination = createWriteStream(resolvedGzipFilePath);
   pipeline(source, brotliCompress, destination, (err) => {
-    if (err) console.log(constants.INVALID_INPUT);
+    if (err) console.log(constants.OPERATION_FAILED);
   });
 };
 
@@ -25,7 +25,7 @@ const decompress = async (gzipFilePath, pathToDestination = "") => {
   const source = createReadStream(resolvedGzipFilePath);
   const destination = createWriteStream(resolvedFilePath);
   pipeline(source, brotliDecompress, destination, (err) => {
-    if (err) console.log(constants.INVALID_INPUT);
+    if (err) console.log(constants.OPERATION_FAILED);
   });
 };
 

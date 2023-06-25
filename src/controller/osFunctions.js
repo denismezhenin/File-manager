@@ -1,5 +1,5 @@
 import { EOL, cpus, homedir, userInfo, arch } from "os"
-import { constants } from "../utils/constants";
+import { constants } from "../utils/constants.js";
 
 export const os = (arg) => {
   switch (arg) {

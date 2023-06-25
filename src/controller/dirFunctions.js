@@ -6,7 +6,7 @@ import { state } from "../utils/state.js";
 
 const showDir = async () => {
   readdir(state.currentDirectoryPath, { withFileTypes: true }, (err, files) => {
-    if (err) console.log(constants.INVALID_INPUT);
+    if (err) console.log(constants.OPERATION_FAILED);
     const filesTable = [];
     for (let file of files) {
       const ceil = {
@@ -22,13 +22,12 @@ const showDir = async () => {
 const changeDirectory = (path) => {
   const newPath = getPath(path);
   access(newPath, fsConstants.R_OK | fsConstants.W_OK, (err) => {
-    console.log(constants.INVALID_INPUT);
+    console.log(constants.OPERATION_FAILED);
     state.currentDirectoryPath = err
       ? state.currentDirectoryPath
       : state.homeDirectory.length > newPath.length
       ? state.currentDirectoryPath
       : newPath;
-    console.log(state.currentDirectoryPath);
   });
 };
 
@@ -38,7 +37,6 @@ const upToOneDirectory = () => {
     state.homeDirectory.length > newDirectoryPath.length
       ? state.currentDirectoryPath
       : newDirectoryPath;
-  console.log(state.currentDirectoryPath);
 };
 
 export { showDir, changeDirectory, upToOneDirectory };

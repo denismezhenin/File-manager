@@ -13,7 +13,7 @@ const readFile = async (path) => {
 const createFile = async (path) => {
   const filePath =  getPath(path)
   open(filePath, "ax+", (err, fd) => {
-    err ? console.log(err) : null;
+    if (err) console.log(constants.OPERATION_FAILED);
     if (fd) {
       close(fd, err => {
         err ? null : null;
@@ -27,7 +27,7 @@ const renameFile = async (fileName, newFileName) => {
   const fileExtension = extname(filePath)
   const newFilePath = getPath(newFileName + fileExtension)
   rename(filePath, newFilePath, err => {
-      if (err)  console.log(err);
+      if (err)  console.log(constants.OPERATION_FAILED);
   })
 };
 
@@ -36,10 +36,10 @@ const copyFile = async (FilePath, FileCopyPath = "") => {
   const fileName = basename(resolvedFilePath)
   const resolvedFileCopyPath = getPath(join(FileCopyPath, fileName))
   const readStream = createReadStream(resolvedFilePath, (err) => {
-    if (err) console.log(err);
+    if (err) console.log(constants.OPERATION_FAILED);
   })
   const writeStream = createWriteStream(resolvedFileCopyPath, (err) => {
-    if (err) console.log(err);
+    if (err) console.log(constants.OPERATION_FAILED);
   })
   readStream.pipe(writeStream)
 }
@@ -47,13 +47,13 @@ const copyFile = async (FilePath, FileCopyPath = "") => {
 const moveFile = async (FilePath, FileMovePath = "") => {
   await copyFile(FilePath, FileMovePath)
   unlink(FilePath, err => {
-    if (err)  console.log(err);
+    if (err)  console.log(constants.OPERATION_FAILED);
 })
 }
 
 const deleteFile = async(filePath) => {
   unlink(filePath, err => {
-    if (err)  console.log(err);
+    if (err)  console.log(constants.OPERATION_FAILED);
 })
 }
 

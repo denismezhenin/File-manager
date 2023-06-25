@@ -29,4 +29,8 @@ const getPath = (path) => {
   return resolvedPath
 };
 
-export { greeting, getArgs, getPath };
+const showCurrentDir = () => {
+  console.log(constants.CURRENT_DIRECTORY_MESSAGE + state.currentDirectoryPath)
+}
+
+export { greeting, getArgs, getPath, showCurrentDir };
