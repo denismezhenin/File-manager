@@ -1,15 +1,17 @@
-// import exp from 'constants';
 import { createReadStream, createWriteStream, unlink, rename, open, close } from 'fs'
+import { basename, join, extname } from "path"
+import { getPath } from '../utils/helpers.js';
+import { EOL } from 'os';
 
-const readFile = async (file) => {
-  const filePath = path.join(currentDirectoryPath, file)
+const readFile = async (path) => {
+  const filePath = getPath(path)
   const readStream = createReadStream(filePath, {flags: "r"});
-  readStream.pipe(stdout);
-  readStream.on("end", () => os.EOL());
+  readStream.pipe(process.stdout);
+  readStream.on("end", () => process.stdout.write(EOL));
 };
 
-const createFile = async (file) => {
-  const filePath = path.join(currentDirectoryPath, file)
+const createFile = async (path) => {
+  const filePath =  getPath(path)
   open(filePath, "ax+", (err, fd) => {
     err ? console.log(err) : null;
     if (fd) {
@@ -21,40 +23,36 @@ const createFile = async (file) => {
 }
 
 const renameFile = async (fileName, newFileName) => {
-  // const filePath = path.resolve(currentDirectoryPath, fileName)
-  // const newFilePath = path.resolve(path, pathnewFileName)
-
-  rename(fileName, newFileName, err => {
+  const filePath = getPath(fileName)
+  const fileExtension = extname(filePath)
+  const newFilePath = getPath(newFileName + fileExtension)
+  rename(filePath, newFilePath, err => {
       if (err)  console.log(err);
   })
-
-  // Write your code here 
 };
 
-const copyFile = async (filePath, fileCopyPath) => {
-  const resolvedFilePath = path.resolve(currentDirectoryPath, filePath)
-  const resolvedFileCopyPath = path.join(currentDirectoryPath, fileCopyPath)
-  console.log(resolvedFileCopyPath)
+const copyFile = async (FilePath, FileCopyPath = "") => {
+  const resolvedFilePath = getPath(FilePath)
+  const fileName = basename(resolvedFilePath)
+  const resolvedFileCopyPath = getPath(join(FileCopyPath, fileName))
   const readStream = createReadStream(resolvedFilePath, (err) => {
     if (err) console.log(err);
   })
-  const writeStream = createWriteStream(filePath, (err) => {
+  const writeStream = createWriteStream(resolvedFileCopyPath, (err) => {
     if (err) console.log(err);
   })
   readStream.pipe(writeStream)
 }
 
-const moveFile = async () => {
-  const args = data.split(' ')
-  await copy(args[1], args[2])
-  unlink(args[1], err => {
+const moveFile = async (FilePath, FileMovePath = "") => {
+  await copyFile(FilePath, FileMovePath)
+  unlink(FilePath, err => {
     if (err)  console.log(err);
 })
 }
 
-const deleteFile = async() => {
-  const args = data.split(' ')
-  unlink(args[1], err => {
+const deleteFile = async(filePath) => {
+  unlink(filePath, err => {
     if (err)  console.log(err);
 })
 }

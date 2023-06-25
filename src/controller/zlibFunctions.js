@@ -1,27 +1,31 @@
 import { createBrotliCompress, createBrotliDecompress } from "zlib";
+import { getPath } from "../utils/helpers.js";
+import { createReadStream, createWriteStream } from 'fs'
+import { join, basename } from "path";
+import { pipeline } from "stream"
+import { constants } from "../utils/constants.js";
 
-const compress = async (filepath, gzipFilePath) => {
-  const resolvedFilePath = path.resolve(currentDirectoryPath, filepath);
-  const resolvedGzipFilePath = path.join(currentDirectoryPath, gzipFilePath);
-  console.log(resolvedFilePath, resolvedGzipFilePath);
-
+const compress = async (pathToFile, pathToDestination = "") => {
+  const resolvedFilePath = getPath(pathToFile);
+  const fileName = basename(resolvedFilePath)
+  const resolvedGzipFilePath = getPath(join(pathToDestination, fileName + ".gz"));
   const brotliCompress = createBrotliCompress();
-  const source = fs.createReadStream(resolvedFilePath);
-  const destination = fs.createWriteStream(resolvedGzipFilePath);
+  const source = createReadStream(resolvedFilePath);
+  const destination = createWriteStream(resolvedGzipFilePath);
   pipeline(source, brotliCompress, destination, (err) => {
-    if (err) console.log(err);
+    if (err) console.log(constants.INVALID_INPUT);
   });
 };
 
-const decompress = async (gzipFilePath, filepath) => {
-  const resolvedFilePath = path.resolve(currentDirectoryPath, filepath);
-  const resolvedGzipFilePath = path.join(currentDirectoryPath, gzipFilePath);
-
+const decompress = async (gzipFilePath, pathToDestination = "") => {
+  const resolvedGzipFilePath = getPath(gzipFilePath);
+  const fileName = basename(resolvedGzipFilePath, ".gz")
+  const resolvedFilePath = getPath(join(pathToDestination, fileName));
   const brotliDecompress = createBrotliDecompress();
-  const source = fs.createReadStream(resolvedGzipFilePath);
-  const destination = fs.createWriteStream(resolvedFilePath);
+  const source = createReadStream(resolvedGzipFilePath);
+  const destination = createWriteStream(resolvedFilePath);
   pipeline(source, brotliDecompress, destination, (err) => {
-    if (err) console.log(err);
+    if (err) console.log(constants.INVALID_INPUT);
   });
 };
 
