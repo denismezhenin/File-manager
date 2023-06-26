@@ -1,3 +1,4 @@
+import { showCurrentDir } from "../utils/helpers.js";
 import { changeDirectory, showDir, upToOneDirectory } from "./dirFunctions.js";
 import { copyFile, createFile, deleteFile, moveFile, readFile, renameFile } from "./filesFunctions.js";
 import { calculateHash } from "./hashFunctions.js";
