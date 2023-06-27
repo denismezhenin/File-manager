@@ -1,0 +1,25 @@
+{
+  "name": "file-manager",
+  "version": "1.0.0",
+  "description": "Node.js file-manager",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/denismezhenin/File-manager.git"
+  },
+  "keywords": [
+    "Node.js",
+    "file-manager"
+  ],
+  "author": "Dzianis Miazhenin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/denismezhenin/File-manager/issues"
+  },
+  "homepage": "https://github.com/denismezhenin/File-manager#readme"
+}
